@@ -2,6 +2,7 @@
 
 var imgEl = document.getElementsByClassName('displayed-picture');
 Product.allProducts = [];
+Product.history = [];
 
 function Product(name, filePath) {
   this.name = name;
@@ -12,11 +13,20 @@ function Product(name, filePath) {
 }
 
 function generateNewImages() {
-  event.preventDefault();
+  if (event){event.preventDefault();}
   var randomIndex;
   for (var i = 0; i < imgEl.length; i++){
     randomIndex = Math.floor(Math.random() * Product.allProducts.length);
-    imgEl[i].src = Product.allProducts[randomIndex].filePath;
+    if (Product.history.length >= 6) {
+      Product.history.pop();
+    }
+    if (!Product.history.includes(randomIndex)){
+      imgEl[i].src = Product.allProducts[randomIndex].filePath;
+      Product.history.unshift(randomIndex);
+    }else{
+      i--;
+    }
+    console.log(Product.history);
   }
 }
 
@@ -44,3 +54,5 @@ new Product('wine-glass', 'img/wine-glass.jpg');
 for (var i = 0; i < imgEl.length; i++){
   imgEl[i].addEventListener('click', generateNewImages);
 }
+
+generateNewImages();
