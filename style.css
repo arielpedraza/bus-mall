@@ -8,24 +8,31 @@ h1, h2 {
   color: white;
   text-align: center;
 }
-#images {
-  background-color: white;
+#image-section {
+  background-color: lightgray;
   width: 900px;
+  height: 450px;
   margin: 20px auto;
   padding: 20px;
   text-align: justify;
-  /*text-align-last:center;*/
 }
-#images:after {
+#image-section:before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+#image-section:after {
     content: '';
     display: inline-block;
     width: 100%;
 }
-#images img {
+#image-section img {
   display: inline-block;
   border: 2px solid black;
   width: 30%;
-  -moz-box-shadow: 0 0 10px #777777;
-  -webkit-box-shadow: 0 0 10px #777777;
-  box-shadow: 0 0 10px #777777;
+  vertical-align: middle;
+  -moz-box-shadow: 0 0 10px #999;
+  -webkit-box-shadow: 0 0 10px #999;
+  box-shadow: 0 0 10px #999;
 }
