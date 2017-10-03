@@ -1,6 +1,6 @@
-* {
+/** {
   border: 1px solid red;
-}
+}*/
 body {
   background-color: black;
 }
@@ -16,7 +16,7 @@ h1, h2 {
   padding: 20px;
   text-align: justify;
 }
-#image-section:before {
+.image-class:before {
   content: '';
   display: inline-block;
   vertical-align: middle;
