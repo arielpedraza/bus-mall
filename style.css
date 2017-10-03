@@ -1,0 +1,38 @@
+/** {
+  border: 1px solid red;
+}*/
+body {
+  background-color: black;
+}
+h1, h2 {
+  color: white;
+  text-align: center;
+}
+#image-section {
+  background-color: lightgray;
+  width: 900px;
+  height: 450px;
+  margin: 20px auto;
+  padding: 20px;
+  text-align: justify;
+}
+.image-class:before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+#image-section:after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+}
+#image-section img {
+  display: inline-block;
+  border: 2px solid black;
+  width: 30%;
+  vertical-align: middle;
+  -moz-box-shadow: 0 0 10px #999;
+  -webkit-box-shadow: 0 0 10px #999;
+  box-shadow: 0 0 10px #999;
+}
