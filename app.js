@@ -13,16 +13,30 @@ function Product(name, filePath) {
 }
 
 function generateNewImages() {
-  if (event){event.preventDefault();}
+  if (event){
+    event.preventDefault();
+    var selected = event.target.alt;
+    console.log(selected);
+    for (var i in Product.allProducts){
+      if (Product.allProducts[i].name === selected){
+        Product.allProducts[i].clicked += 1;
+        console.log(Product.allProducts[i].name + ' clicked ' + Product.allProducts[i].clicked + ' times.');
+        break;
+      }
+    }
+  }
   var randomIndex;
-  for (var i = 0; i < imgEl.length; i++){
+  for (i = 0; i < imgEl.length; i++){
     randomIndex = Math.floor(Math.random() * Product.allProducts.length);
     if (Product.history.length >= 6) {
       Product.history.pop();
     }
     if (!Product.history.includes(randomIndex)){
       imgEl[i].src = Product.allProducts[randomIndex].filePath;
+      imgEl[i].alt = Product.allProducts[randomIndex].name;
       Product.history.unshift(randomIndex);
+      Product.allProducts[randomIndex].displayed += 1;
+      console.log(Product.allProducts[randomIndex].name + ' displayed ' + Product.allProducts[randomIndex].displayed + ' times.');
     }else{
       i--;
     }
