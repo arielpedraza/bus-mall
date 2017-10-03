@@ -17,36 +17,51 @@ function generateNewImages() {
   if (event){
     event.preventDefault();
     var selected = event.target.alt;
-    console.log(selected);
+    // console.log(selected);
     for (var i in Product.allProducts){
       if (Product.allProducts[i].name === selected){
         Product.allProducts[i].clicked += 1;
-        console.log(Product.allProducts[i].name + ' clicked ' + Product.allProducts[i].clicked + ' times.');
+        // console.log(Product.allProducts[i].name + ' clicked ' + Product.allProducts[i].clicked + ' times.');
         break;
       }
     }
   }
   if (Product.totalShown >= 25){
+    for (i = 0; i < imgEl.length; i++){
+      imgEl[i].removeEventListener('click', generateNewImages);
+    }
     var parentEl = document.getElementById('image-section');
     parentEl.classList.remove('image-class');
     while(parentEl.firstChild){
       parentEl.removeChild(parentEl.firstChild);
     }
-    var newLiEl = document.createElement('ul');
-    parentEl.appendChild(newLiEl);
-    parentEl = parentEl.firstChild;
-    for (i in Product.allProducts){
-      newLiEl = document.createElement('li');
-      newLiEl.textContent = Product.allProducts[i].name + ' clicked ' + Product.allProducts[i].clicked + ' times.';
-      parentEl.appendChild(newLiEl);
-    }
+    var newCanvasEl = document.createElement('canvas');
+    newCanvasEl.setAttribute('id', 'myChart');
+    newCanvasEl.setAttribute('width', '100%');
+    // newCanvasEl.setAttribute('height', '100%');
+    parentEl.appendChild(newCanvasEl);
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chart = new Chart(ctx, {
+      // The type of chart we want to create
+      type: 'bar',
+      // The data for our dataset
+      data: {
+        labels: generateXAxis(),
+        datasets: [{
+          label: '# of Votes',
+          data: generateYAxis(),
+          backgroundColor: generateBarColors(),
+          borderColor: generateBarColors(),
+          borderWidth: 1
+        }]
+      },
+      // Configuration options go here
+      options: {}
+    });
   }else{
     var randomIndex;
     for (i = 0; i < imgEl.length; i++){
       randomIndex = Math.floor(Math.random() * Product.allProducts.length);
-      if (Product.history.length >= 6) {
-        Product.history.pop();
-      }
       if (!Product.history.includes(randomIndex)){
         imgEl[i].src = Product.allProducts[randomIndex].filePath;
         imgEl[i].alt = Product.allProducts[randomIndex].name;
@@ -59,7 +74,38 @@ function generateNewImages() {
       console.log(Product.history);
     }
   }
+  while (Product.history.length > 3) {
+    Product.history.pop();
+  }
   Product.totalShown += 3;
+}
+
+function generateXAxis() {
+  var tempArray = [];
+  for (var i in Product.allProducts){
+    tempArray.push(Product.allProducts[i].name);
+  }
+  return tempArray;
+}
+
+function generateYAxis() {
+  var tempArray = [];
+  for (var i in Product.allProducts){
+    tempArray.push(Product.allProducts[i].clicked);
+  }
+  return tempArray;
+}
+
+function generateBarColors() {
+  var tempArray = [];
+  var r, g, b;
+  for (var i in Product.allProducts){
+    r = Math.floor(Math.random() * (256));
+    g = Math.floor(Math.random() * (256));
+    b = Math.floor(Math.random() * (256));
+    tempArray.push('rgba(' + r + ', ' + g + ', ' + b + ', 1.0)');
+  }
+  return tempArray;
 }
 
 new Product('bag', 'img/bag.jpg');
