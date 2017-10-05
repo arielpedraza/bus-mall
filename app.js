@@ -22,6 +22,9 @@ var imageLibrary = [
   ['wine-glass', 'img/wine-glass.jpg']
 ];
 var imgEl = document.getElementsByClassName('displayed-picture');
+var saveBtnEl = document.getElementById('save-progress');
+var clearBtnEl = document.getElementById('clear-history');
+var retakeBtnEl = document.getElementById('retake-survey');
 Product.allProducts = [];
 Product.history = [];
 Product.totalShown = 0;
@@ -77,6 +80,11 @@ function generateNewImages() {
     parentEl.appendChild(newCanvasEl);
     drawChart();
     localStorage.setItem('pageHistory', JSON.stringify(Product.allProducts));
+    localStorage.removeItem('lastViewed');
+    localStorage.removeItem('shownCount');
+    saveBtnEl.style.display = 'none';
+    clearBtnEl.style.display = 'inline';
+    retakeBtnEl.style.display = 'inline';
   }
 }
 
@@ -144,6 +152,21 @@ function generateBarColors() {
   return tempArray;
 }
 
+function saveProgress(){
+  event.preventDefault();
+  localStorage.setItem('pageHistory', JSON.stringify(Product.allProducts));
+  localStorage.setItem('lastViewed', JSON.stringify(Product.history));
+  localStorage.setItem('shownCount', JSON.stringify(Product.totalShown));
+}
+function clearStorage() {
+  event.preventDefault();
+  localStorage.removeItem('pageHistory');
+}
+function retakeSurvey() {
+  event.preventDefault();
+  location.reload();
+}
+
 function initialize() {
   if (!window.localStorage.pageHistory){
     for (var i in imageLibrary){
@@ -151,10 +174,23 @@ function initialize() {
     }
   }else{
     Product.allProducts = JSON.parse(localStorage.getItem('pageHistory'));
+    if (window.localStorage.lastViewed){
+      Product.history = JSON.parse(localStorage.getItem('lastViewed'));
+    }
+    if (window.localStorage.shownCount){
+      Product.totalShown = JSON.parse(localStorage.getItem('shownCount'));
+      Product.totalShown -= 3;
+    }
   }
   for (i = 0; i < imgEl.length; i++){
     imgEl[i].addEventListener('click', generateNewImages);
   }
+  saveBtnEl.style.display = 'inline';
+  clearBtnEl.style.display = 'none';
+  retakeBtnEl.style.display = 'none';
+  saveBtnEl.addEventListener('click', saveProgress);
+  clearBtnEl.addEventListener('click', clearStorage);
+  retakeBtnEl.addEventListener('click', retakeSurvey);
   generateNewImages();
 }
 
