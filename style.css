@@ -36,3 +36,13 @@ h1, h2 {
   -webkit-box-shadow: 0 0 10px #999;
   box-shadow: 0 0 10px #999;
 }
+#button {
+  border: 2px solid red;
+  width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+button {
+  margin: 5px 20px;
+  padding: 10px;
+}
